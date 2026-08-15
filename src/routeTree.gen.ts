@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as CareersIndexRouteImport } from './routes/careers.index'
+import { Route as CareersCareerIdRouteImport } from './routes/careers.$careerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersIndexRoute = CareersIndexRouteImport.update({
+  id: '/careers/',
+  path: '/careers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersCareerIdRoute = CareersCareerIdRouteImport.update({
+  id: '/careers/$careerId',
+  path: '/careers/$careerId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
+  '/roadmap': typeof RoadmapRoute
+  '/skills': typeof SkillsRoute
+  '/careers/$careerId': typeof CareersCareerIdRoute
+  '/careers/': typeof CareersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
+  '/roadmap': typeof RoadmapRoute
+  '/skills': typeof SkillsRoute
+  '/careers/$careerId': typeof CareersCareerIdRoute
+  '/careers': typeof CareersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
+  '/roadmap': typeof RoadmapRoute
+  '/skills': typeof SkillsRoute
+  '/careers/$careerId': typeof CareersCareerIdRoute
+  '/careers/': typeof CareersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/onboarding'
+    | '/roadmap'
+    | '/skills'
+    | '/careers/$careerId'
+    | '/careers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/onboarding'
+    | '/roadmap'
+    | '/skills'
+    | '/careers/$careerId'
+    | '/careers'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/onboarding'
+    | '/roadmap'
+    | '/skills'
+    | '/careers/$careerId'
+    | '/careers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  OnboardingRoute: typeof OnboardingRoute
+  RoadmapRoute: typeof RoadmapRoute
+  SkillsRoute: typeof SkillsRoute
+  CareersCareerIdRoute: typeof CareersCareerIdRoute
+  CareersIndexRoute: typeof CareersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers/': {
+      id: '/careers/'
+      path: '/careers'
+      fullPath: '/careers/'
+      preLoaderRoute: typeof CareersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers/$careerId': {
+      id: '/careers/$careerId'
+      path: '/careers/$careerId'
+      fullPath: '/careers/$careerId'
+      preLoaderRoute: typeof CareersCareerIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  OnboardingRoute: OnboardingRoute,
+  RoadmapRoute: RoadmapRoute,
+  SkillsRoute: SkillsRoute,
+  CareersCareerIdRoute: CareersCareerIdRoute,
+  CareersIndexRoute: CareersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
