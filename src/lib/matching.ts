@@ -17,8 +17,8 @@ export type LearnerProfile = {
   interests: string[];
   strengths: string[];
   goalMode: "known" | "idea" | "unsure";
-  targetCareerId?: string;
-  careerArea?: string;
+  targetCareerId?: string | undefined;
+  careerArea?: string | undefined;
   completedSteps: string[];
   createdAt: string;
 };
