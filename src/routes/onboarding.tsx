@@ -101,6 +101,13 @@ function Onboarding() {
   return (
     <div className="bg-hero-glow min-h-screen">
       <header className="mx-auto flex max-w-3xl items-center justify-between px-4 py-5">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => (step === 0 ? navigate({ to: "/" }) : setStep(step - 1))}
+        >
+          <ArrowLeft className="size-4" /> Back
+        </Button>
         <BrandMark />
         <span className="text-sm text-muted-foreground">
           Step {step + 1} of {STEPS.length}
@@ -396,13 +403,7 @@ function Onboarding() {
           ) : null}
         </div>
 
-        <div className="mt-6 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => (step === 0 ? navigate({ to: "/" }) : setStep(step - 1))}
-          >
-            <ArrowLeft className="size-4" /> Back
-          </Button>
+        <div className="mt-6 flex items-center justify-end">
           {step === STEPS.length - 1 ? (
             <Button size="lg" disabled={!canContinue} onClick={finish}>
               <Check className="size-4" /> Generate my roadmap
