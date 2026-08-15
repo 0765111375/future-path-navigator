@@ -44,7 +44,7 @@ export const Route = createFileRoute("/onboarding")({
   component: Onboarding,
 });
 
-const STEPS = ["About you", "Subjects", "Marks", "Interests", "Strengths", "Career goal"];
+const STEPS = ["Welcome", "About you", "Subjects & marks", "Interests", "Strengths", "Career goal"];
 
 function Chip({
   active,
@@ -75,7 +75,21 @@ function Onboarding() {
   const navigate = useNavigate();
   const { save } = useProfile();
   const [step, setStep] = useState(0);
-  const [draft, setDraft] = useState<LearnerProfile>(() => emptyProfile());
+  const [draft, setDraft] = useState<LearnerProfile>(() => {
+    const initial = emptyProfile();
+    const sessionName =
+      typeof window !== "undefined" ? window.localStorage.getItem("nextpath.auth.v1") : null;
+    if (sessionName) {
+      try {
+        const parsed = JSON.parse(sessionName) as { name?: string };
+        if (parsed.name) initial.name = parsed.name;
+      } catch {
+        // ignore invalid session data
+      }
+    }
+    initial.authProvider = "google";
+    return initial;
+  });
 
   const set = (patch: Partial<LearnerProfile>) => setDraft((d) => ({ ...d, ...patch }));
   const toggle = (key: "subjects" | "interests" | "strengths", value: string) =>
@@ -85,16 +99,22 @@ function Onboarding() {
     }));
 
   const canContinue = [
+<<<<<<< HEAD
     draft.name.trim().length > 0 && draft.province.length > 0,
     draft.subjects.length >= 3 || Boolean(draft.reportFileName),
     Object.keys(draft.marks).length >= 1,
+=======
+    true,
+    draft.name.trim().length > 0 && draft.province.length > 0 && draft.locationType.length > 0,
+    draft.subjects.length >= 3,
+>>>>>>> bcd0498 (Authentication)
     draft.interests.length >= 1,
     draft.strengths.length >= 1,
     draft.goalMode === "unsure" || Boolean(draft.targetCareerId) || Boolean(draft.careerArea),
   ][step];
 
   const finish = () => {
-    save({ ...draft, createdAt: new Date().toISOString() });
+    save({ ...draft, authProvider: "google", createdAt: new Date().toISOString() });
     navigate({ to: "/dashboard" });
   };
 
@@ -108,9 +128,13 @@ function Onboarding() {
       </header>
 
       <div className="mx-auto max-w-3xl px-4 pb-20">
-        <h1 className="text-3xl font-semibold sm:text-4xl">Let's build your path.</h1>
+        <h1 className="text-3xl font-semibold sm:text-4xl">
+          {step === 0 ? "Welcome to NextPath 👋" : "Let's build your path."}
+        </h1>
         <p className="mt-2 text-muted-foreground">
-          {STEPS[step]} — this stays on your device and powers every recommendation.
+          {step === 0
+            ? "Let's build your Grade 9 career roadmap."
+            : `${STEPS[step]} — this stays on your device and powers every recommendation.`}
         </p>
 
         <Progress value={((step + 1) / STEPS.length) * 100} className="mt-6" />
@@ -118,14 +142,40 @@ function Onboarding() {
         <div className="panel mt-6 p-6 sm:p-8">
           {step === 0 ? (
             <div className="grid gap-5">
+              <div className="flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/10 px-4 py-3 text-sm text-primary">
+                <Check className="size-4" />
+                Google account connected
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-2xl font-semibold">Welcome to NextPath 👋</h2>
+                <p className="text-muted-foreground">
+                  Let's build your Grade 9 career roadmap together.
+                </p>
+              </div>
+              <div className="grid gap-3 rounded-xl border border-border bg-surface px-4 py-4 text-sm text-muted-foreground">
+                <p>We’ll collect the essentials to personalise your next steps:</p>
+                <ul className="list-disc space-y-2 pl-5">
+                  <li>Your name, province and area</li>
+                  <li>Your current subjects and marks</li>
+                  <li>Your interests, strengths and career direction</li>
+                </ul>
+              </div>
+            </div>
+          ) : null}
+
+          {step === 1 ? (
+            <div className="grid gap-5">
               <div className="grid gap-2">
-                <Label htmlFor="name">First name</Label>
+                <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
                   value={draft.name}
-                  placeholder="Thandi"
+                  placeholder="e.g. Aphiwe"
                   onChange={(e) => set({ name: e.target.value })}
                 />
+                <p className="text-xs text-muted-foreground">
+                  This is pulled from your Google account when available.
+                </p>
               </div>
               <div className="grid gap-2">
                 <Label>Grade</Label>
@@ -165,20 +215,37 @@ function Onboarding() {
                 </Select>
               </div>
               <div className="grid gap-2">
+                <Label>Area type</Label>
+                <Select
+                  value={draft.locationType}
+                  onValueChange={(v) => set({ locationType: v as LearnerProfile["locationType"] })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select rural or urban" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="urban">Urban</SelectItem>
+                    <SelectItem value="rural">Rural</SelectItem>
+                    <SelectItem value="peri-urban">Peri-urban</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-2">
                 <Label htmlFor="area">Area (optional)</Label>
                 <Input
                   id="area"
                   value={draft.area}
-                  placeholder="Township, village or town"
+                  placeholder="Township, village, town or suburb"
                   onChange={(e) => set({ area: e.target.value })}
                 />
                 <p className="text-xs text-muted-foreground">
-                  We never ask for your school name or ID number.
+                  We only use this to personalise your recommendations and community context.
                 </p>
               </div>
             </div>
           ) : null}
 
+<<<<<<< HEAD
           {step === 1 ? (
             <div className="space-y-5">
               <div>
@@ -205,6 +272,55 @@ function Onboarding() {
                     </button>
                   ))}
                 </div>
+=======
+          {step === 2 ? (
+            <div className="grid gap-6">
+              <div>
+                <p className="mb-4 text-sm text-muted-foreground">
+                  Which subjects are you currently taking? Pick at least three.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {SUBJECTS.map((s) => (
+                    <Chip
+                      key={s}
+                      active={draft.subjects.includes(s)}
+                      onClick={() => toggle("subjects", s)}
+                    >
+                      {s}
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-4">
+                <p className="text-sm text-muted-foreground">
+                  Add your marks if you have them — approximate percentages are fine.
+                </p>
+                {draft.subjects.map((s) => (
+                  <div key={s} className="flex items-center gap-4">
+                    <Label className="flex-1">{s}</Label>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="number"
+                        min={0}
+                        max={100}
+                        className="w-24"
+                        value={draft.marks[s] ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setDraft((d) => {
+                            const marks = { ...d.marks };
+                            if (value === "") delete marks[s];
+                            else marks[s] = Math.max(0, Math.min(100, Number(value)));
+                            return { ...d, marks };
+                          });
+                        }}
+                      />
+                      <span className="text-muted-foreground">%</span>
+                    </div>
+                  </div>
+                ))}
+>>>>>>> bcd0498 (Authentication)
               </div>
 
               {draft.subjectSource === "manual" ? (
@@ -248,38 +364,6 @@ function Onboarding() {
                   </div>
                 </div>
               )}
-            </div>
-          ) : null}
-
-          {step === 2 ? (
-            <div className="grid gap-4">
-              <p className="text-sm text-muted-foreground">
-                Approximate percentages are fine — you can update them any time.
-              </p>
-              {draft.subjects.map((s) => (
-                <div key={s} className="flex items-center gap-4">
-                  <Label className="flex-1">{s}</Label>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      min={0}
-                      max={100}
-                      className="w-24"
-                      value={draft.marks[s] ?? ""}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        setDraft((d) => {
-                          const marks = { ...d.marks };
-                          if (value === "") delete marks[s];
-                          else marks[s] = Math.max(0, Math.min(100, Number(value)));
-                          return { ...d, marks };
-                        });
-                      }}
-                    />
-                    <span className="text-muted-foreground">%</span>
-                  </div>
-                </div>
-              ))}
             </div>
           ) : null}
 

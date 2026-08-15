@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EducationRouteImport } from './routes/education'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as CareersIndexRouteImport } from './routes/careers.index'
@@ -33,9 +35,19 @@ const EducationRoute = EducationRouteImport.update({
   path: '/education',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoadmapRoute = RoadmapRouteImport.update({
@@ -63,7 +75,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/careers/$careerId': typeof CareersCareerIdRoute
@@ -73,7 +87,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/careers/$careerId': typeof CareersCareerIdRoute
@@ -84,7 +100,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/careers/$careerId': typeof CareersCareerIdRoute
@@ -96,7 +114,9 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/education'
+    | '/login'
     | '/onboarding'
+    | '/profile'
     | '/roadmap'
     | '/skills'
     | '/careers/$careerId'
@@ -106,7 +126,9 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/education'
+    | '/login'
     | '/onboarding'
+    | '/profile'
     | '/roadmap'
     | '/skills'
     | '/careers/$careerId'
@@ -116,7 +138,9 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/education'
+    | '/login'
     | '/onboarding'
+    | '/profile'
     | '/roadmap'
     | '/skills'
     | '/careers/$careerId'
@@ -127,7 +151,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   EducationRoute: typeof EducationRoute
+  LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
+  ProfileRoute: typeof ProfileRoute
   RoadmapRoute: typeof RoadmapRoute
   SkillsRoute: typeof SkillsRoute
   CareersCareerIdRoute: typeof CareersCareerIdRoute
@@ -157,11 +183,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EducationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roadmap': {
@@ -199,7 +239,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   EducationRoute: EducationRoute,
+  LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
+  ProfileRoute: ProfileRoute,
   RoadmapRoute: RoadmapRoute,
   SkillsRoute: SkillsRoute,
   CareersCareerIdRoute: CareersCareerIdRoute,

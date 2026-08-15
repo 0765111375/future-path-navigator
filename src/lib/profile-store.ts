@@ -77,6 +77,8 @@ export const DEMO_PROFILE: LearnerProfile = {
   preferredLanguage: "English",
   province: "Limpopo",
   area: "Rural village near Tzaneen",
+  locationType: "rural",
+  authProvider: "google",
   subjects: [
     "Mathematics",
     "Physical Sciences",

@@ -76,7 +76,9 @@ function SkillsPage() {
       <section className="panel p-6">
         <div className="flex items-center gap-2">
           <Sparkles className="size-5 text-primary" />
-          <h2 className="text-lg font-semibold">{level} skills for {career?.title}</h2>
+          <h2 className="text-lg font-semibold">
+            {level} skills for {career?.title}
+          </h2>
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           {career?.skills[level].map((s) => (

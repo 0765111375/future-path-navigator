@@ -414,7 +414,11 @@ export const CAREERS: Career[] = [
       "IT support technicians install, maintain and troubleshoot hardware, software and networks. Many start here and grow into engineering or security roles.",
     dayToDay: ["Fixing devices", "Helping users", "Maintaining networks"],
     requiredSubjects: [],
-    recommendedSubjects: ["Computer Applications Technology", "Information Technology", "Mathematical Literacy"],
+    recommendedSubjects: [
+      "Computer Applications Technology",
+      "Information Technology",
+      "Mathematical Literacy",
+    ],
     markTargets: [{ subject: "English", target: 50 }],
     interests: ["technology", "helping", "building"],
     strengths: ["technology", "people", "problem-solving", "building"],
@@ -708,7 +712,8 @@ export const PROJECTS: Project[] = [
     title: "Build a calculator",
     level: "Beginner",
     time: "2–3 hours",
-    description: "A simple program that adds, subtracts, multiplies and divides — your first real code.",
+    description:
+      "A simple program that adds, subtracts, multiplies and divides — your first real code.",
     skills: ["Python basics", "Problem solving"],
     careers: ["software-engineer", "ai-engineer", "it-support"],
   },
@@ -726,7 +731,8 @@ export const PROJECTS: Project[] = [
     title: "Build your personal website",
     level: "Beginner",
     time: "3–4 hours",
-    description: "A one-page site about you, your subjects and your goals. Great for showing teachers.",
+    description:
+      "A one-page site about you, your subjects and your goals. Great for showing teachers.",
     skills: ["HTML & CSS", "Design basics"],
     careers: ["software-engineer", "ux-designer", "business-analyst"],
   },
@@ -816,7 +822,8 @@ export const PROJECTS: Project[] = [
     title: "Run the books for a small tuckshop",
     level: "Beginner",
     time: "1 month, part-time",
-    description: "Record income and expenses for a real or imagined tuckshop and produce a monthly statement.",
+    description:
+      "Record income and expenses for a real or imagined tuckshop and produce a monthly statement.",
     skills: ["Bookkeeping basics", "Budgeting", "Spreadsheets"],
     careers: ["accountant", "business-analyst", "actuary"],
   },
@@ -825,7 +832,8 @@ export const PROJECTS: Project[] = [
     title: "Build a model bridge",
     level: "Beginner",
     time: "1 weekend",
-    description: "Design and test a bridge from cheap materials and measure how much weight it holds.",
+    description:
+      "Design and test a bridge from cheap materials and measure how much weight it holds.",
     skills: ["Technical drawing", "Physics fundamentals", "Measurement"],
     careers: ["civil-engineer"],
   },
@@ -834,7 +842,8 @@ export const PROJECTS: Project[] = [
     title: "Community health journal",
     level: "Beginner",
     time: "1 month",
-    description: "Research a common health issue in your community and write a short, sourced report.",
+    description:
+      "Research a common health issue in your community and write a short, sourced report.",
     skills: ["Biology fundamentals", "Research methods", "Communication"],
     careers: ["doctor", "biomedical"],
   },
@@ -862,8 +871,10 @@ export const OPPORTUNITIES: Opportunity[] = [
     type: "Bursary",
     description:
       "Government funding covering tuition, accommodation and allowances for qualifying students at public universities and TVET colleges.",
-    eligibility: "South African citizen; combined household income within the NSFAS threshold; Grade 12 in final year.",
-    closing: "Applications usually open in the second half of the year — confirm dates on the official site.",
+    eligibility:
+      "South African citizen; combined household income within the NSFAS threshold; Grade 12 in final year.",
+    closing:
+      "Applications usually open in the second half of the year — confirm dates on the official site.",
     location: "National",
     areas: ["Technology", "STEM", "Business", "Health", "Engineering", "Design"],
     url: "https://www.nsfas.org.za/",
@@ -874,8 +885,10 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Funza Lushaka Bursary",
     organisation: "Department of Basic Education",
     type: "Bursary",
-    description: "Full-cost bursary for students studying to become teachers in priority subject areas.",
-    eligibility: "South African citizen studying an approved initial teacher education qualification.",
+    description:
+      "Full-cost bursary for students studying to become teachers in priority subject areas.",
+    eligibility:
+      "South African citizen studying an approved initial teacher education qualification.",
     closing: "Annual cycle — confirm on the official site.",
     location: "National",
     areas: ["Education", "STEM"],
@@ -887,7 +900,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Sasol Bursary Programme",
     organisation: "Sasol",
     type: "Bursary",
-    description: "Bursaries for engineering, science and technology studies, including vacation work.",
+    description:
+      "Bursaries for engineering, science and technology studies, including vacation work.",
     eligibility: "Strong Mathematics and Physical Sciences results; South African citizen.",
     closing: "Annual cycle — confirm on the official site.",
     location: "National",
@@ -900,7 +914,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "WeThinkCode_",
     organisation: "WeThinkCode_",
     type: "Coding programme",
-    description: "Tuition-free two-year software engineering programme with no prior coding experience required.",
+    description:
+      "Tuition-free two-year software engineering programme with no prior coding experience required.",
     eligibility: "Ages 17–35; selection is through online aptitude tests, not marks.",
     closing: "Applications open annually — confirm on the official site.",
     location: "Johannesburg, Cape Town, Durban",
@@ -926,7 +941,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "South African Mathematics Olympiad",
     organisation: "SA Mathematics Foundation",
     type: "Competition",
-    description: "National mathematics competition open to school learners, with a junior round for Grades 8 and 9.",
+    description:
+      "National mathematics competition open to school learners, with a junior round for Grades 8 and 9.",
     eligibility: "Learners in Grades 8–12 entered through their school.",
     closing: "Round 1 is written in the first school term.",
     location: "National",
@@ -939,7 +955,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Eskom Expo for Young Scientists",
     organisation: "Eskom Development Foundation",
     type: "Competition",
-    description: "Science fair where learners present research projects at regional and international level.",
+    description:
+      "Science fair where learners present research projects at regional and international level.",
     eligibility: "Learners in Grades 4–12.",
     closing: "Regional expos run mid-year.",
     location: "National",
@@ -952,7 +969,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Free beginner courses",
     organisation: "Coursera / freeCodeCamp",
     type: "Online course",
-    description: "Free introductory courses in programming, data and design that you can start in Grade 9.",
+    description:
+      "Free introductory courses in programming, data and design that you can start in Grade 9.",
     eligibility: "Open to anyone with internet access.",
     closing: "Always open.",
     location: "Online",
@@ -965,8 +983,10 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Thuthuka Bursary Fund",
     organisation: "SAICA",
     type: "Bursary",
-    description: "Bursary and support programme for African and Coloured students studying towards becoming CAs(SA).",
-    eligibility: "South African citizen; strong Mathematics; studying accounting at an accredited university.",
+    description:
+      "Bursary and support programme for African and Coloured students studying towards becoming CAs(SA).",
+    eligibility:
+      "South African citizen; strong Mathematics; studying accounting at an accredited university.",
     closing: "Annual cycle — confirm on the official site.",
     location: "National",
     areas: ["Business"],
@@ -978,7 +998,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "Dell Young Leaders Programme",
     organisation: "Michael & Susan Dell Foundation",
     type: "Scholarship",
-    description: "Financial and personal support for students at partner South African universities.",
+    description:
+      "Financial and personal support for students at partner South African universities.",
     eligibility: "Financially disadvantaged students at partner universities.",
     closing: "Annual cycle — confirm on the official site.",
     location: "Partner universities",
@@ -1004,7 +1025,8 @@ export const OPPORTUNITIES: Opportunity[] = [
     name: "SETA Learnerships",
     organisation: "Sector Education and Training Authorities",
     type: "Holiday / skills programme",
-    description: "Workplace learnerships and skills programmes across ICT, engineering, finance and health sectors.",
+    description:
+      "Workplace learnerships and skills programmes across ICT, engineering, finance and health sectors.",
     eligibility: "Varies per SETA and programme.",
     closing: "Varies.",
     location: "National",

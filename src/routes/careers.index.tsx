@@ -36,7 +36,9 @@ function CareerExplorer() {
   const [category, setCategory] = useState("All");
 
   const categories = ["All", ...new Set(CAREERS.map((c) => c.category))];
-  const ranked = profile ? rankCareers(profile) : CAREERS.map((c) => ({ career: c, score: 0, reasons: [] as string[] }));
+  const ranked = profile
+    ? rankCareers(profile)
+    : CAREERS.map((c) => ({ career: c, score: 0, reasons: [] as string[] }));
 
   const list = ranked.filter((m) => {
     const matchesQuery =

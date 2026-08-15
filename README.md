@@ -57,21 +57,20 @@ Subjects + Marks + Interests + Strengths + Career interests
 NextPath produces:
 
 YOUR PROFILE
-     ↓
+↓
 CAREER DISCOVERY
-     ↓
+↓
 SUBJECT RECOMMENDATIONS
-     ↓
+↓
 EDUCATION PATHWAY
-     ↓
+↓
 SKILLS TO DEVELOP
-     ↓
+↓
 PROJECTS TO BUILD
-     ↓
+↓
 COURSES TO EXPLORE
-     ↓
+↓
 FUTURE OPPORTUNITIES
-
 
 And importantly:
 
@@ -110,13 +109,12 @@ Alternative pathways
 For example:
 
 Software Engineering
-       ↓
+↓
 Data Analysis
 Cybersecurity
 UX/UI Design
 IT Support
 Business Analysis
-
 
 This is a huge part of your value proposition.
 
@@ -125,31 +123,30 @@ This is a huge part of your value proposition.
 Your MVP should basically be one beautiful journey.
 
 LANDING
-   ↓
+↓
 "Start My Journey"
-   ↓
+↓
 GRADE 9 PROFILE
-   ↓
+↓
 INTERESTS + SUBJECTS + MARKS
-   ↓
+↓
 CAREER DISCOVERY
-   ↓
+↓
 PERSONALISED ROADMAP
-   ↓
+↓
 SUBJECTS
-   ↓
+↓
 EDUCATION
-   ↓
+↓
 SKILLS
-   ↓
+↓
 PROJECTS
-   ↓
+↓
 COURSES
-   ↓
+↓
 OPPORTUNITIES
-   ↓
+↓
 IMPROVEMENT / ALTERNATIVES
-
 
 Don't build separate dashboards for learners, students and graduates anymore.
 
@@ -345,7 +342,6 @@ Likes problem solving
 Likes building things
 No specific career
 
-
 AI can interpret their profile and recommend:
 
 Careers you may want to explore
@@ -385,7 +381,6 @@ Python calculator
 Quiz application
 Web application
 
-
 AI turns this into:
 
 "Because you're interested in technology and currently performing well in Mathematics and IT, Software Engineering is a pathway worth exploring. Your next priority should be strengthening your programming and problem-solving skills..."
@@ -400,12 +395,10 @@ Mathematics = 55%
 Career = Software Engineering
 Target = 65%
 
-
 The system identifies:
 
 GAP:
 Mathematics
-
 
 AI explains:
 
@@ -439,22 +432,21 @@ If someone doesn't currently fit:
 
 TARGET
 Software Engineer
-      ❌
-      ↓
+❌
+↓
 WHY?
 Maths requirement not currently met
-      ↓
+↓
 IMPROVE
 Mathematics
-      ↓
+↓
 OR EXPLORE
 Related pathways
-      ↓
+↓
 Data Analyst
 IT Support
 UX/UI
 Business Analyst
-
 
 The AI explains:
 
@@ -546,7 +538,6 @@ Architecture:
                        ▼
               PERSONALISED ANSWER
 
-
 15. 📚 WHAT VERIFIED DATA DO YOU NEED?
 
 This is where you should not try to collect everything in Africa overnight.
@@ -566,7 +557,6 @@ Typical skills
 Related careers
 Relevant subjects
 Education pathways
-
 
 Example:
 
@@ -589,7 +579,6 @@ Computer Science
 Software Engineering
 Information Technology
 
-
 16. Dataset 2 — University programmes
 
 For each programme:
@@ -603,7 +592,6 @@ Minimum requirements
 APS requirements
 Faculty
 Official URL
-
 
 VERY IMPORTANT
 
@@ -628,7 +616,7 @@ This is crucial.
 Create relationships like:
 
 Mathematics
-   ↓
+↓
 Software Engineering
 Data Science
 Actuarial Science
@@ -636,16 +624,14 @@ Engineering
 Economics
 Computer Science
 
-
 And:
 
 Life Sciences
-   ↓
+↓
 Medicine
 Biochemistry
 Biotechnology
 Environmental Science
-
 
 This is what allows NextPath to answer:
 
@@ -664,7 +650,6 @@ Intermediate skills
 Advanced skills
 ↓
 Projects
-
 
 Example:
 
@@ -729,7 +714,6 @@ Location
 Career area
 Official URL
 Last verified date
-
 
 Never let the AI invent an opportunity.
 
@@ -814,7 +798,6 @@ Civil Engineer
 Accountant
 UX/UI Designer
 
-
 Then expand later.
 
 22. 💻 NEW LOVABLE PROMPT
@@ -848,6 +831,7 @@ IMPORTANT PRODUCT PRINCIPLE:
 NextPath should NOT simply tell a learner what career to choose.
 
 It should explain:
+
 - Why a pathway was recommended
 - What requirements or preparation are needed
 - Where the learner currently stands
@@ -858,6 +842,7 @@ It should explain:
 This is a hackathon MVP.
 
 Prioritise:
+
 - Excellent UI
 - One complete user journey
 - Personalisation
@@ -898,6 +883,7 @@ DESIGN
 Create a modern, welcoming African technology education platform.
 
 The interface should feel:
+
 - youthful
 - trustworthy
 - accessible
@@ -910,6 +896,7 @@ Avoid making it look like a generic AI chatbot.
 The central visual metaphor should be a ROADMAP.
 
 Use:
+
 - cards
 - timelines
 - progress bars
@@ -1209,6 +1196,7 @@ Show:
 "You still have options."
 
 Recommend related careers based on:
+
 - interests
 - strengths
 - subjects
@@ -1383,24 +1371,15 @@ AI CONTEXT
 
 Create a structure where the AI receives:
 
-USER PROFILE
-+
-CURRENT MARKS
-+
-SUBJECTS
-+
-INTERESTS
-+
-STRENGTHS
-+
-CAREER GOAL
-+
-ROADMAP PROGRESS
-+
-RELEVANT VERIFIED CAREER DATA
-+
-RELEVANT EDUCATION DATA
-+
+USER PROFILE +
+CURRENT MARKS +
+SUBJECTS +
+INTERESTS +
+STRENGTHS +
+CAREER GOAL +
+ROADMAP PROGRESS +
+RELEVANT VERIFIED CAREER DATA +
+RELEVANT EDUCATION DATA +
 RELEVANT SKILLS/PROJECT DATA
 
 The AI should generate personalised explanations and recommendations.
@@ -1444,6 +1423,7 @@ Instead say:
 "Your current profile may not yet meet the requirements for this pathway. Here's what you can work on."
 
 Never fabricate:
+
 - university requirements
 - bursaries
 - opportunities
@@ -1499,7 +1479,6 @@ This complete journey should be demonstrable in approximately 3 minutes.
 
 The product should feel like a real startup MVP, not a collection of unrelated pages.
 
-
 23. 🧠 The most important architectural change
 
 Your mentors' advice also changes how I'd build the AI.
@@ -1507,7 +1486,6 @@ Your mentors' advice also changes how I'd build the AI.
 Don't make:
 
 User → ChatGPT → Answer
-
 
 Make:
 
@@ -1519,17 +1497,17 @@ Make:
                     ↓
        ┌────────────┴────────────┐
        ↓                         ↓
-CAREER DATA                EDUCATION DATA
-       ↓                         ↓
-SKILLS / PROJECTS         REQUIREMENTS
-       └────────────┬────────────┘
-                    ↓
-              CONTEXT BUILDER
-                    ↓
-                  AI/LLM
-                    ↓
-         PERSONALISED EXPLANATION
 
+CAREER DATA EDUCATION DATA
+↓ ↓
+SKILLS / PROJECTS REQUIREMENTS
+└────────────┬────────────┘
+↓
+CONTEXT BUILDER
+↓
+AI/LLM
+↓
+PERSONALISED EXPLANATION
 
 The matching engine is actually important.
 
@@ -1582,21 +1560,20 @@ Instead:
 Make one learner's journey absolutely excellent.
 
 Grade 9 Learner
-       ↓
+↓
 "My interests + marks"
-       ↓
+↓
 Career possibilities
-       ↓
+↓
 "Do I currently qualify?"
-       ↓
+↓
 "What do I need to improve?"
-       ↓
+↓
 "What's my alternative?"
-       ↓
+↓
 "My roadmap"
-       ↓
+↓
 "What's my next step?"
-
 
 If you can demo that smoothly, the judges will understand the product immediately.
 

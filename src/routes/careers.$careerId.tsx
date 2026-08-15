@@ -33,7 +33,9 @@ export const Route = createFileRoute("/careers/$careerId")({
     return { career };
   },
   head: ({ loaderData }) => {
-    const title = loaderData ? `${loaderData.career.title} pathway — NextPath` : "Career — NextPath";
+    const title = loaderData
+      ? `${loaderData.career.title} pathway — NextPath`
+      : "Career — NextPath";
     const description = loaderData
       ? `${loaderData.career.blurb} See the subjects, marks, skills, projects and study pathways for ${loaderData.career.title}.`
       : "Career pathway details on NextPath.";

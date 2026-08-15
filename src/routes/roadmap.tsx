@@ -106,7 +106,12 @@ function Roadmap() {
         {programmes.slice(0, 3).map((p) => (
           <li key={p.id}>
             • {p.programme}, {p.university} (APS {p.aps}) —{" "}
-            <a href={p.url} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+            <a
+              href={p.url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary hover:underline"
+            >
               source <ExternalLink className="inline size-3" />
             </a>
           </li>

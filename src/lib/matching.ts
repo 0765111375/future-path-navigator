@@ -13,6 +13,7 @@ export type LearnerProfile = {
   preferredLanguage: string;
   province: string;
   area: string;
+  locationType: "urban" | "rural" | "peri-urban" | "";
   subjects: string[];
   marks: Record<string, number>;
   interests: string[];
@@ -22,6 +23,7 @@ export type LearnerProfile = {
   goalMode: "known" | "idea" | "unsure";
   targetCareerId?: string | undefined;
   careerArea?: string | undefined;
+  authProvider?: "google" | "local";
   completedSteps: string[];
   createdAt: string;
 };
@@ -32,6 +34,7 @@ export const emptyProfile = (): LearnerProfile => ({
   preferredLanguage: "English",
   province: "",
   area: "",
+  locationType: "",
   subjects: [],
   marks: {},
   interests: [],
@@ -98,8 +101,7 @@ export function scoreCareer(profile: LearnerProfile, career: Career): CareerMatc
     reasons.push(`You said you enjoy ${interestHits.slice(0, 3).join(", ")}.`);
   if (strengthHits.length)
     reasons.push(`You rated yourself strong in ${strengthHits.slice(0, 3).join(", ")}.`);
-  if (subjectHits.length)
-    reasons.push(`You already take ${subjectHits.slice(0, 3).join(", ")}.`);
+  if (subjectHits.length) reasons.push(`You already take ${subjectHits.slice(0, 3).join(", ")}.`);
   const strongMark = career.markTargets.find((t) => (mark(profile, t.subject) ?? -1) >= t.target);
   if (strongMark)
     reasons.push(
@@ -155,7 +157,8 @@ export function analyseGaps(profile: LearnerProfile, career: Career): GapAnalysi
 
   let status: GapAnalysis["status"] = "on-track";
   if (!known) status = "not-enough-data";
-  else if (missingSubjects.length || realGaps.some((g) => g.delta > 10)) status = "needs-improvement";
+  else if (missingSubjects.length || realGaps.some((g) => g.delta > 10))
+    status = "needs-improvement";
   else if (realGaps.length) status = "close";
 
   return { status, gaps, met, missingSubjects };
@@ -175,7 +178,11 @@ export const FOCUS_TOPICS: Record<string, string[]> = {
   "Life Sciences": ["Cells & systems", "Diagrams and labelling", "Exam terminology"],
   English: ["Reading comprehension", "Essay structure", "Vocabulary journal"],
   Accounting: ["Ledgers", "Financial statements", "Weekly problem sets"],
-  "Information Technology": ["Basic programming logic", "Debugging practice", "Small daily projects"],
+  "Information Technology": [
+    "Basic programming logic",
+    "Debugging practice",
+    "Small daily projects",
+  ],
 };
 
 export function improvementActions(subject: string) {

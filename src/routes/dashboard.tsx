@@ -148,9 +148,8 @@ function Dashboard() {
           {topGap && career ? (
             <>
               <p className="mt-4 text-sm">
-                Improve <span className="font-medium">{topGap.subject}</span> from{" "}
-                {topGap.current}% toward the example target of {topGap.target}%+ for{" "}
-                {career.title}.
+                Improve <span className="font-medium">{topGap.subject}</span> from {topGap.current}%
+                toward the example target of {topGap.target}%+ for {career.title}.
               </p>
               <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
                 {improvementActions(topGap.subject)

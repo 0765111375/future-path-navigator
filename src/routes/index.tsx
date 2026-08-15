@@ -56,7 +56,7 @@ function Landing() {
             <Link to="/careers">Explore careers</Link>
           </Button>
           <Button asChild size="sm">
-            <Link to="/onboarding">Build my path</Link>
+            <Link to="/login">Continue with Google</Link>
           </Button>
         </div>
       </header>
@@ -77,8 +77,8 @@ function Landing() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="group">
-              <Link to="/onboarding">
-                Build My Path
+              <Link to="/login">
+                Continue with Google
                 <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
@@ -196,7 +196,7 @@ function Landing() {
           </div>
           <div className="mt-6">
             <Button asChild size="lg">
-              <Link to="/onboarding">Start my journey</Link>
+              <Link to="/login">Start my journey</Link>
             </Button>
           </div>
         </div>

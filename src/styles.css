@@ -113,7 +113,8 @@
   --sidebar-border: oklch(0.33 0.05 253);
   --sidebar-ring: oklch(0.78 0.14 183);
 
-  --gradient-hero: radial-gradient(
+  --gradient-hero:
+    radial-gradient(
       120% 90% at 15% 0%,
       color-mix(in oklab, var(--accent) 34%, transparent) 0%,
       transparent 60%

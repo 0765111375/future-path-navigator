@@ -23,7 +23,9 @@ export function buildAIContext(profile: LearnerProfile): string {
   lines.push(`LEARNER PROFILE`);
   lines.push(`Name: ${profile.name || "Learner"}`);
   lines.push(`Grade: ${profile.grade}`);
-  lines.push(`Province: ${profile.province || "not given"}${profile.area ? ` (${profile.area})` : ""}`);
+  lines.push(
+    `Province: ${profile.province || "not given"}${profile.area ? ` (${profile.area})` : ""}`,
+  );
   lines.push(`Subjects: ${profile.subjects.join(", ") || "none captured"}`);
   lines.push(
     `Marks: ${
@@ -46,9 +48,13 @@ export function buildAIContext(profile: LearnerProfile): string {
     const gaps = analyseGaps(profile, career);
     lines.push(`\nTARGET PATHWAY: ${career.title} (${career.category})`);
     lines.push(`Description: ${career.description}`);
-    lines.push(`Required school subjects: ${career.requiredSubjects.join(", ") || "no strict requirement"}`);
+    lines.push(
+      `Required school subjects: ${career.requiredSubjects.join(", ") || "no strict requirement"}`,
+    );
     lines.push(`Recommended subjects: ${career.recommendedSubjects.join(", ")}`);
-    lines.push(`Example mark targets: ${career.markTargets.map((t) => `${t.subject} ${t.target}%+`).join(", ")}`);
+    lines.push(
+      `Example mark targets: ${career.markTargets.map((t) => `${t.subject} ${t.target}%+`).join(", ")}`,
+    );
     lines.push(`Gap status: ${gaps.status}`);
     gaps.gaps.forEach((g) => {
       lines.push(
@@ -67,7 +73,9 @@ export function buildAIContext(profile: LearnerProfile): string {
         .map((p) => `${p.title} (${p.level}, ${p.time})`)
         .join("; ")}`,
     );
-    lines.push(`EDUCATION PATHWAYS (example requirements, verified ${DATA_VERIFIED_ON}, must be confirmed with the institution):`);
+    lines.push(
+      `EDUCATION PATHWAYS (example requirements, verified ${DATA_VERIFIED_ON}, must be confirmed with the institution):`,
+    );
     programmesForCareer(career).forEach((p) => {
       lines.push(
         `- ${p.university}: ${p.programme} (${p.duration}, APS ${p.aps}). Requires ${p.requiredSubjects

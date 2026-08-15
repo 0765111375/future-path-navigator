@@ -51,7 +51,10 @@ export const askNextPathAI = createServerFn({ method: "POST" })
     });
 
     if (res.status === 429) {
-      return { ok: false as const, error: "NextPath AI is busy right now. Please try again shortly." };
+      return {
+        ok: false as const,
+        error: "NextPath AI is busy right now. Please try again shortly.",
+      };
     }
     if (res.status === 402) {
       return { ok: false as const, error: "AI credits have run out for this workspace." };

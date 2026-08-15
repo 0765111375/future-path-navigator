@@ -116,8 +116,7 @@ function EducationPage() {
             <p className="text-xs text-muted-foreground">{p.university}</p>
             <p className="font-medium">{p.programme}</p>
             <p className="mt-1 text-xs text-muted-foreground">
-              APS {p.aps} ·{" "}
-              {p.requiredSubjects.map((r) => `${r.subject} ${r.min}%`).join(", ")}
+              APS {p.aps} · {p.requiredSubjects.map((r) => `${r.subject} ${r.min}%`).join(", ")}
             </p>
           </a>
         ))}
