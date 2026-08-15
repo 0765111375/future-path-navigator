@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as EducationRouteImport } from './routes/education'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as SkillsRouteImport } from './routes/skills'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationRoute = EducationRouteImport.update({
+  id: '/education',
+  path: '/education',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -56,6 +62,7 @@ const CareersCareerIdRoute = CareersCareerIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/onboarding': typeof OnboardingRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/onboarding': typeof OnboardingRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/onboarding': typeof OnboardingRoute
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/education'
     | '/onboarding'
     | '/roadmap'
     | '/skills'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/education'
     | '/onboarding'
     | '/roadmap'
     | '/skills'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/education'
     | '/onboarding'
     | '/roadmap'
     | '/skills'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  EducationRoute: typeof EducationRoute
   OnboardingRoute: typeof OnboardingRoute
   RoadmapRoute: typeof RoadmapRoute
   SkillsRoute: typeof SkillsRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  EducationRoute: EducationRoute,
   OnboardingRoute: OnboardingRoute,
   RoadmapRoute: RoadmapRoute,
   SkillsRoute: SkillsRoute,

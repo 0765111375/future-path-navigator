@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="np-bg" x1="16" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#0B2E3E"/>
+    </linearGradient>
+    <linearGradient id="np-accent" x1="24" y1="22" x2="103" y2="101" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5EEAD4"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#np-bg)"/>
+  <path d="M34 94V34H44.5L64.5 70.5L84.5 34H94V94H84.5V57.5L67.5 89H61.5L44.5 57.5V94H34Z" fill="white"/>
+  <path d="M92 28L75.5 28L67.5 39.5L59.5 28H43L56.5 50L43 94H58L67.5 70.5L77 94H92L78.5 50L92 28Z" fill="url(#np-accent)"/>
+</svg>

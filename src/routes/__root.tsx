@@ -76,22 +76,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "viewport", content: "width=device-width" },
+      { title: "NextPath | Your Roadmap to Your Future" },
+      {
+        name: "description",
+        content:
+          "NextPath helps Grade 9 learners discover career pathways, understand subject choices, develop skills and build a roadmap toward their future.",
+      },
+      { name: "author", content: "NextPath" },
+      { property: "og:title", content: "NextPath | Your Roadmap to Your Future" },
+      {
+        property: "og:description",
+        content:
+          "Discover your career possibilities and build your personalised roadmap from Grade 9 to your future.",
+      },
       { property: "og:type", content: "website" },
+
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "apple-touch-icon", href: "/favicon.svg" },
     ],
   }),
   shellComponent: RootShell,
