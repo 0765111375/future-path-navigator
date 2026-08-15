@@ -16,6 +16,8 @@ export type LearnerProfile = {
   marks: Record<string, number>;
   interests: string[];
   strengths: string[];
+  subjectSource: "manual" | "upload";
+  reportFileName?: string | undefined;
   goalMode: "known" | "idea" | "unsure";
   targetCareerId?: string | undefined;
   careerArea?: string | undefined;
@@ -32,6 +34,8 @@ export const emptyProfile = (): LearnerProfile => ({
   marks: {},
   interests: [],
   strengths: [],
+  subjectSource: "manual",
+  reportFileName: undefined,
   goalMode: "unsure",
   completedSteps: [],
   createdAt: new Date().toISOString(),

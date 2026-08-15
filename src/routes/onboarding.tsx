@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BrandMark } from "@/components/nextpath/shell";
-import { CAREERS, INTERESTS, PROVINCES, STRENGTHS, SUBJECTS } from "@/data/nextpath";
+import { CAREERS, GRADE9_SUBJECTS, INTERESTS, PROVINCES, STRENGTHS } from "@/data/nextpath";
 import { emptyProfile, type LearnerProfile } from "@/lib/matching";
 import { useProfile } from "@/lib/profile-store";
 import { cn } from "@/lib/utils";
@@ -79,7 +79,7 @@ function Onboarding() {
 
   const canContinue = [
     draft.name.trim().length > 0 && draft.province.length > 0,
-    draft.subjects.length >= 3,
+    draft.subjects.length >= 3 || Boolean(draft.reportFileName),
     Object.keys(draft.marks).length >= 1,
     draft.interests.length >= 1,
     draft.strengths.length >= 1,
@@ -155,21 +155,74 @@ function Onboarding() {
           ) : null}
 
           {step === 1 ? (
-            <div>
-              <p className="mb-4 text-sm text-muted-foreground">
-                Which subjects are you currently taking? Pick at least three.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {SUBJECTS.map((s) => (
-                  <Chip
-                    key={s}
-                    active={draft.subjects.includes(s)}
-                    onClick={() => toggle("subjects", s)}
-                  >
-                    {s}
-                  </Chip>
-                ))}
+            <div className="space-y-5">
+              <div>
+                <p className="mb-2 text-sm font-medium text-foreground">
+                  How would you like to tell us your Grade 9 subjects?
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { id: "manual", label: "Choose my subjects" },
+                    { id: "upload", label: "Upload a report or timetable" },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      type="button"
+                      onClick={() => set({ subjectSource: option.id as "manual" | "upload" })}
+                      className={cn(
+                        "rounded-full border px-4 py-2 text-sm transition-all",
+                        draft.subjectSource === option.id
+                          ? "border-primary bg-primary/15 text-primary shadow-elevated"
+                          : "border-border bg-surface text-muted-foreground hover:border-primary/40 hover:text-foreground",
+                      )}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {draft.subjectSource === "manual" ? (
+                <div>
+                  <p className="mb-4 text-sm text-muted-foreground">
+                    Which Grade 9 subjects are you currently taking? Pick at least three, including
+                    your home language and core subjects.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {GRADE9_SUBJECTS.map((s) => (
+                      <Chip
+                        key={s}
+                        active={draft.subjects.includes(s)}
+                        onClick={() => toggle("subjects", s)}
+                      >
+                        {s}
+                      </Chip>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    Upload a school report, progress report, or timetable. We will use it to help
+                    suggest the right subjects and pathways.
+                  </p>
+                  <div className="rounded-xl border border-dashed border-border bg-surface p-4">
+                    <Input
+                      type="file"
+                      accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.txt"
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (file) {
+                          set({ reportFileName: file.name, subjectSource: "upload" });
+                        }
+                      }}
+                    />
+                    {draft.reportFileName ? (
+                      <p className="mt-3 text-sm text-primary">Selected file: {draft.reportFileName}</p>
+                    ) : null}
+                  </div>
+                </div>
+              )}
             </div>
           ) : null}
 

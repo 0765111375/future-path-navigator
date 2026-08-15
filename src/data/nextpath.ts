@@ -28,6 +28,18 @@ export const SUBJECTS = [
   "History",
 ] as const;
 
+export const GRADE9_SUBJECTS = [
+  "Home Language (English / isiZulu / other)",
+  "First Additional Language (Afrikaans / isiXhosa / Sesotho / other)",
+  "Mathematics",
+  "Life Orientation",
+  "Natural Sciences",
+  "Technology",
+  "Social Sciences (History and Geography)",
+  "Economic and Management Sciences (EMS)",
+  "Creative Arts",
+] as const;
+
 export type Subject = (typeof SUBJECTS)[number];
 
 export const PROVINCES = [
