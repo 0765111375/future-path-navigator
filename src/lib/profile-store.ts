@@ -74,6 +74,7 @@ export function useProfile() {
 export const DEMO_PROFILE: LearnerProfile = {
   name: "Thandi",
   grade: "Grade 9",
+  preferredLanguage: "English",
   province: "Limpopo",
   area: "Rural village near Tzaneen",
   subjects: [

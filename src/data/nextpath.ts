@@ -54,6 +54,19 @@ export const PROVINCES = [
   "Western Cape",
 ];
 
+export const LANGUAGE_OPTIONS = [
+  "English",
+  "isiZulu",
+  "Afrikaans",
+  "Sesotho",
+  "isiXhosa",
+  "Setswana",
+  "Sepedi",
+  "Xitsonga",
+  "Tshivenda",
+  "Other",
+] as const;
+
 export const INTERESTS = [
   { id: "technology", label: "Technology", emoji: "💻" },
   { id: "science", label: "Science", emoji: "🔬" },

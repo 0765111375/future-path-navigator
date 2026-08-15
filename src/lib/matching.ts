@@ -10,6 +10,7 @@ import {
 export type LearnerProfile = {
   name: string;
   grade: string;
+  preferredLanguage: string;
   province: string;
   area: string;
   subjects: string[];
@@ -28,6 +29,7 @@ export type LearnerProfile = {
 export const emptyProfile = (): LearnerProfile => ({
   name: "",
   grade: "Grade 9",
+  preferredLanguage: "English",
   province: "",
   area: "",
   subjects: [],

@@ -13,7 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BrandMark } from "@/components/nextpath/shell";
-import { CAREERS, GRADE9_SUBJECTS, INTERESTS, PROVINCES, STRENGTHS } from "@/data/nextpath";
+import {
+  CAREERS,
+  GRADE9_SUBJECTS,
+  INTERESTS,
+  LANGUAGE_OPTIONS,
+  PROVINCES,
+  STRENGTHS,
+} from "@/data/nextpath";
 import { emptyProfile, type LearnerProfile } from "@/lib/matching";
 import { useProfile } from "@/lib/profile-store";
 import { cn } from "@/lib/utils";
@@ -123,6 +130,24 @@ function Onboarding() {
               <div className="grid gap-2">
                 <Label>Grade</Label>
                 <Input value="Grade 9" readOnly className="text-muted-foreground" />
+              </div>
+              <div className="grid gap-2">
+                <Label>Preferred language</Label>
+                <Select
+                  value={draft.preferredLanguage}
+                  onValueChange={(v) => set({ preferredLanguage: v })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose a language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LANGUAGE_OPTIONS.map((language) => (
+                      <SelectItem key={language} value={language}>
+                        {language}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="grid gap-2">
                 <Label>Province</Label>
