@@ -52,7 +52,6 @@ function LoginPage() {
         navigate({ to: "/dashboard" });
         return;
       }
-
       // 5. New learner
       navigate({ to: "/onboarding" });
     } catch (err) {
