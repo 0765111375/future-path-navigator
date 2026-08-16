@@ -100,12 +100,11 @@ function Roadmap() {
           <p className="font-medium">Recommended Grade 10 subjects (based on your marks, interests & strengths)</p>
           <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
             {recommendGrade10Subjects(profile).slice(0, 6).map((s) => (
-              <li key={s.subject} className="flex items-start justify-between">
+              <li key={s.subject} className="flex items-start">
                 <div>
                   <div className="font-medium">{s.subject}</div>
                   <div className="text-xs text-muted-foreground">{s.reasons.slice(0,2).join(' · ')}</div>
                 </div>
-                <div className="ml-4 text-sm text-foreground">{s.confidence}%</div>
               </li>
             ))}
           </ul>

@@ -119,7 +119,7 @@ function ProfilePage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [draft, setDraft] = useState(
     profile ?? {
-      name: "",
+      name: "Annah Mlimi",
       grade: "Grade 9",
       province: "",
       area: "",
@@ -156,9 +156,9 @@ function ProfilePage() {
     return Math.round((pieces.filter(Boolean).length / pieces.length) * 100);
   }, [draft]);
 
-  const saveProfile = () => {
-    save({ ...draft, createdAt: new Date().toISOString() });
-    navigate({ to: "/dashboard" });
+  const saveProfile = async () => {
+    await save({ ...draft, createdAt: new Date().toISOString() });
+    navigate({ to: "/roadmap" });
   };
 
   const handleTranscriptUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -266,15 +266,7 @@ function ProfilePage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid gap-2 md:col-span-2">
-              <Label htmlFor="area">Area</Label>
-              <Input
-                id="area"
-                value={draft.area}
-                placeholder="Township, village, suburb or town"
-                onChange={(e) => setDraft((current) => ({ ...current, area: e.target.value }))}
-              />
-            </div>
+            
           </section>
 
           <section className="space-y-4">
@@ -300,7 +292,7 @@ function ProfilePage() {
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <Upload className="mr-2 size-4" />
-                  Upload transcript
+                  Upload report
                 </Button>
               </div>
             </div>
