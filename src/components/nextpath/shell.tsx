@@ -1,9 +1,10 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Compass,
   GraduationCap,
   HelpCircle,
   LayoutDashboard,
+  LogOut,
   Map,
   MessageCircle,
   Route as RouteIcon,
@@ -12,7 +13,12 @@ import {
   Wrench,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import { signOut } from "firebase/auth";
+
+import { auth } from "@/lib/firebase";
 import { cn } from "@/lib/utils";
+import dataService from "@/lib/data-service";
+import { useEffect } from "react";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -39,6 +45,20 @@ export function BrandMark({ className }: { className?: string }) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    void dataService.refreshFromFirestore();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigate({ to: "/login" });
+    } catch {
+      navigate({ to: "/login" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,6 +91,14 @@ export function AppShell({ children }: { children: ReactNode }) {
           >
             <Sparkles className="size-4" /> My profile
           </Link>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <LogOut className="size-4" />
+            Sign out
+          </button>
           <Link
             to="/help"
             aria-label="Help"
@@ -81,6 +109,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
       <main className="mx-auto max-w-7xl px-4 py-8">{children}</main>
+
+      {/* refresh dataset from Firestore on client start (best-effort) */}
+      <script>
+        {`(function(){ /* noop for SSR */ })()`}
+      </script>
+      {/* call via effect */}
+      {/* useEffect placed below to avoid SSR errors */}
+      {null}
       <footer className="mx-auto max-w-7xl px-4 pb-10 pt-4 text-xs text-muted-foreground">
         NextPath shows exploration recommendations built from a verified demo dataset. Always verify
         admission requirements, closing dates and funding rules with the official institution.

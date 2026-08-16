@@ -344,7 +344,7 @@ function CareerDetail() {
           <Link to="/roadmap">Open my roadmap</Link>
         </Button>
         <Button asChild size="lg" variant="outline">
-          <Link to="/ai">Ask NextPath AI about this pathway</Link>
+          <Link to="/careers">Explore other careers</Link>
         </Button>
       </div>
 

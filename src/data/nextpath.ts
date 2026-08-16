@@ -10,22 +10,17 @@
 export const DATA_VERIFIED_ON = "August 2026";
 
 export const SUBJECTS = [
+  "Siswati HL",
+  "English FAL",
+  "Social Science",
+  "Life Orientation",
+  "Creative Arts",
+  "Afrikaans FAL",
+  "isiZulu HL",
+  "EMS",
+  "Technology",
+  "Natural Sciences",
   "Mathematics",
-  "Mathematical Literacy",
-  "Physical Sciences",
-  "Life Sciences",
-  "Geography",
-  "Accounting",
-  "Business Studies",
-  "Economics",
-  "Information Technology",
-  "Computer Applications Technology",
-  "English",
-  "Afrikaans",
-  "isiZulu",
-  "Sesotho",
-  "Visual Arts",
-  "History",
 ] as const;
 
 export const GRADE9_SUBJECTS = [
@@ -38,6 +33,21 @@ export const GRADE9_SUBJECTS = [
   "Social Sciences (History and Geography)",
   "Economic and Management Sciences (EMS)",
   "Creative Arts",
+] as const;
+
+export const GRADE10_SUBJECTS = [
+  "Mathematics",
+  "Physical Sciences",
+  "Tourism",
+  "Agriculture",
+  "Computer Applications Technology",
+  "Mathematical Literacy",
+  "Economics",
+  "Business Studies",
+  "Information Technology",
+  "Life Sciences",
+  "Geography",
+  "Accounting",
 ] as const;
 
 export type Subject = (typeof SUBJECTS)[number];

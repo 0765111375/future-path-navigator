@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Check, Save, Sparkles } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ArrowRight, Check, Save, Sparkles, Upload } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { BrandMark } from "@/components/nextpath/shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,9 +54,69 @@ function Chip({
   );
 }
 
+function parseTranscriptMarks(rawText: string) {
+  const text = rawText.replace(/\r/g, " ");
+  const marks: Record<string, number> = {};
+  const chosenSubjects = new Set<string>();
+  const subjectNames = [
+    "Mathematics",
+    "Mathematical Literacy",
+    "Physical Sciences",
+    "Life Sciences",
+    "Geography",
+    "Accounting",
+    "Business Studies",
+    "Economics",
+    "Information Technology",
+    "Computer Applications Technology",
+    "English",
+    "Afrikaans",
+    "isiZulu",
+    "Sesotho",
+    "Visual Arts",
+    "History",
+  ];
+
+  for (const subject of subjectNames) {
+    const subjectPattern = new RegExp(
+      `(${subject.replace(/[-/\[\]{}()*+?.\\^$|]/g, "\\$&")})\\s*[:\-]?\\s*(\\d{1,3})(?:\\s*%|\\s*$)`,
+      "i",
+    );
+    const match = text.match(subjectPattern);
+    if (match) {
+      const score = Number(match[2]);
+      if (score >= 0 && score <= 100) {
+        marks[subject] = score;
+        chosenSubjects.add(subject);
+      }
+    }
+  }
+
+  const genericPattern = /([A-Za-z][A-Za-z\s&()/-]+?)\s*[:\-]?\s*(\d{1,3})\s*%?/gi;
+  let match: RegExpExecArray | null;
+  while ((match = genericPattern.exec(text)) !== null) {
+    const label = match[1].trim();
+    const score = Number(match[2]);
+    const matchSubject = subjectNames.find(
+      (subject) =>
+        subject.toLowerCase() === label.toLowerCase() ||
+        label.toLowerCase().includes(subject.toLowerCase()) ||
+        subject.toLowerCase().includes(label.toLowerCase()),
+    );
+
+    if (matchSubject && score >= 0 && score <= 100) {
+      marks[matchSubject] = score;
+      chosenSubjects.add(matchSubject);
+    }
+  }
+
+  return { subjects: [...chosenSubjects], marks };
+}
+
 function ProfilePage() {
   const navigate = useNavigate();
   const { profile, save } = useProfile();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [draft, setDraft] = useState(
     profile ?? {
       name: "",
@@ -73,6 +133,7 @@ function ProfilePage() {
       createdAt: new Date().toISOString(),
     },
   );
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const toggler = (key: "subjects" | "interests" | "strengths", value: string) =>
     setDraft((current) => ({
@@ -98,6 +159,36 @@ function ProfilePage() {
   const saveProfile = () => {
     save({ ...draft, createdAt: new Date().toISOString() });
     navigate({ to: "/dashboard" });
+  };
+
+  const handleTranscriptUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const parsed = parseTranscriptMarks(text);
+
+      if (parsed.subjects.length === 0) {
+        setUploadStatus(
+          "We couldn't detect marks from that file. You can still add subjects and marks manually.",
+        );
+        event.target.value = "";
+        return;
+      }
+
+      setDraft((current) => ({
+        ...current,
+        subjects: Array.from(new Set([...current.subjects, ...parsed.subjects])),
+        marks: { ...current.marks, ...parsed.marks },
+      }));
+
+      setUploadStatus(`Imported ${parsed.subjects.length} subjects and marks from ${file.name}.`);
+    } catch {
+      setUploadStatus("This file could not be read. Please try a text or PDF export.");
+    } finally {
+      event.target.value = "";
+    }
   };
 
   return (
@@ -187,12 +278,39 @@ function ProfilePage() {
           </section>
 
           <section className="space-y-4">
-            <div>
-              <h2 className="text-xl font-semibold">Current school subjects</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Choose all subjects you are taking.
-              </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-xl font-semibold">Current school subjects</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Choose all subjects you are taking.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".txt,.pdf,.csv,.doc,.docx,.rtf"
+                  className="hidden"
+                  onChange={handleTranscriptUpload}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="mr-2 size-4" />
+                  Upload transcript
+                </Button>
+              </div>
             </div>
+
+            {uploadStatus ? (
+              <p className="rounded-xl border border-primary/20 bg-primary/10 px-3 py-2 text-sm text-primary">
+                {uploadStatus}
+              </p>
+            ) : null}
+
             <div className="flex flex-wrap gap-2">
               {SUBJECTS.map((subject) => (
                 <Chip
@@ -301,7 +419,10 @@ function ProfilePage() {
                   type="button"
                   key={option.id}
                   onClick={() =>
-                    setDraft((current) => ({ ...current, goalMode: option.id as any }))
+                    setDraft((current) => ({
+                      ...current,
+                      goalMode: option.id as "known" | "idea" | "unsure",
+                    }))
                   }
                   className={cn(
                     "rounded-xl border p-4 text-left transition-all",

@@ -1,13 +1,11 @@
-import {
-  CAREERS,
-  PROGRAMMES,
-  PROJECTS,
-  careerById,
-  type Career,
-  type Programme,
-} from "@/data/nextpath";
+import dataService from "./data-service";
+import type { Career, Programme } from "@/data/nextpath";
+const careerById = dataService.careerById;
 
 export type LearnerProfile = {
+  uid?: string;
+  email?: string;
+  photoURL?: string;
   name: string;
   grade: string;
   preferredLanguage: string;
@@ -25,7 +23,9 @@ export type LearnerProfile = {
   careerArea?: string | undefined;
   authProvider?: "google" | "local";
   completedSteps: string[];
+  onboardingComplete?: boolean;
   createdAt: string;
+  updatedAt?: string;
 };
 
 export const emptyProfile = (): LearnerProfile => ({
@@ -43,7 +43,9 @@ export const emptyProfile = (): LearnerProfile => ({
   reportFileName: undefined,
   goalMode: "unsure",
   completedSteps: [],
+  onboardingComplete: false,
   createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 });
 
 const mark = (profile: LearnerProfile, subject: string): number | null => {
@@ -71,7 +73,7 @@ export function scoreCareer(profile: LearnerProfile, career: Career): CareerMatc
     ...career.recommendedSubjects,
   ]);
 
-  const interestScore = career.interests.length
+  let interestScore = career.interests.length
     ? (interestHits.length / Math.min(career.interests.length, 4)) * 38
     : 0;
   const strengthScore = career.strengths.length
@@ -91,9 +93,21 @@ export function scoreCareer(profile: LearnerProfile, career: Career): CareerMatc
     }
   }
   const marksComponent = markCount ? (markScore / markCount) * 16 : 8;
+  const marksFraction = markCount ? markScore / markCount : null;
+
+  // If marks are low relative to targets, reduce the influence of stated interests
+  // so the engine prefers pathways supported by demonstrated performance.
+  if (marksFraction !== null && marksFraction < 0.6) {
+    const interestMultiplier = Math.max(0.35, marksFraction); // never drop interest entirely
+    interestScore = Math.round(interestScore * interestMultiplier);
+  }
+
+  // If there are clear improvement needs for this career, apply a penalty to deprioritize it.
+  const gap = analyseGaps(profile, career);
+  const gapPenalty = gap.status === "needs-improvement" ? 18 : 0;
 
   const score = Math.round(
-    Math.min(97, interestScore + strengthScore + subjectScore + marksComponent),
+    Math.max(0, Math.min(97, interestScore + strengthScore + subjectScore + marksComponent - gapPenalty)),
   );
 
   const reasons: string[] = [];
@@ -107,13 +121,30 @@ export function scoreCareer(profile: LearnerProfile, career: Career): CareerMatc
     reasons.push(
       `Your ${strongMark.subject} mark (${mark(profile, strongMark.subject)}%) already reaches the example target of ${strongMark.target}%.`,
     );
+  // If marks exist but below target, explain improvement needed and suggest targets
+  if (marksFraction !== null && marksFraction < 0.85) {
+    const missing = career.markTargets
+      .map((t) => ({ ...t, current: mark(profile, t.subject) }))
+      .filter((r) => r.current !== null && (r.current ?? 0) < r.target)
+      .slice(0, 3);
+    if (missing.length) {
+      const advise = missing
+        .map((m) =>
+          `Improve ${m.subject} from ${m.current}% to ${m.target}%. Focus: ${improvementActions(
+            m.subject,
+          ).slice(0, 3).join("; ")}`,
+        )
+        .join(" \n");
+      reasons.push(`You expressed interest, but your marks suggest improvement: ${advise}`);
+    }
+  }
   if (!reasons.length) reasons.push("This pathway is worth exploring to widen your options.");
 
   return { career, score, reasons };
 }
 
 export function rankCareers(profile: LearnerProfile): CareerMatch[] {
-  return CAREERS.map((c) => scoreCareer(profile, c)).sort((a, b) => b.score - a.score);
+  return dataService.getCareers().map((c) => scoreCareer(profile, c)).sort((a, b) => b.score - a.score);
 }
 
 export type Gap = {
@@ -209,7 +240,7 @@ export function alternativesFor(profile: LearnerProfile, career: Career): Career
 
 export function programmesForCareer(career: Career): Programme[] {
   return career.programmes
-    .map((id) => PROGRAMMES.find((p) => p.id === id))
+    .map((id) => dataService.getProgrammes().find((p) => p.id === id))
     .filter((p): p is Programme => Boolean(p));
 }
 
@@ -253,5 +284,90 @@ export function strongestSubjects(profile: LearnerProfile) {
 }
 
 export function projectsForCareerId(id: string) {
-  return PROJECTS.filter((p) => p.careers.includes(id));
+  return dataService.projectsForCareer(id);
+}
+
+export type ImprovementPlan = {
+  improvements: string[];
+  alternatives: CareerMatch[];
+};
+
+/**
+ * Build an actionable improvement plan for a career: subject targets and alternative careers.
+ */
+export function improvementPlan(profile: LearnerProfile, career: Career): ImprovementPlan {
+  const improvements: string[] = [];
+  for (const t of career.markTargets) {
+    const current = mark(profile, t.subject);
+    if (current === null) {
+      improvements.push(`Add ${t.subject} or provide a mark; target ${t.target}%`);
+    } else if (current < t.target) {
+      const topics = improvementActions(t.subject).slice(0, 3).join("; ");
+      improvements.push(
+        `Improve ${t.subject} from ${current}% to ${t.target}% — focus: ${topics}`,
+      );
+    }
+  }
+
+  const alternatives = alternativesFor(profile, career).slice(0, 4);
+  return { improvements, alternatives };
+}
+
+/**
+ * Recommend Grade 10 subjects for a profile. Returns subjects with a confidence % and reason.
+ */
+export function recommendGrade10Subjects(profile: LearnerProfile) {
+  const career = targetCareer(profile);
+  const interestMap: Record<string, string[]> = {
+    numbers: ["Mathematics", "Economics", "Accounting"],
+    science: ["Physical Sciences", "Life Sciences", "Natural Sciences"],
+    technology: ["Computer Applications Technology", "Information Technology", "Technology"],
+    creativity: ["Creative Arts", "Visual Arts"],
+    business: ["Economics", "Business Studies", "Accounting"],
+    environment: ["Agriculture", "Geography"],
+    communication: ["English", "Home Language (English / isiZulu / other)"],
+  };
+
+  const candidates = Array.from(dataService.getGrade10Subjects()) as string[];
+
+  const scored = candidates.map((subject) => {
+    let score = 30; // base realism
+
+    if (career) {
+      if (career.requiredSubjects.includes(subject)) score += 30;
+      if (career.recommendedSubjects.includes(subject)) score += 18;
+    }
+
+    // interest alignment
+    for (const i of profile.interests) {
+      const mapped = interestMap[i];
+      if (mapped && mapped.includes(subject)) score += 12;
+    }
+
+    // strengths and marks
+    if (profile.strengths.includes(subject.toLowerCase())) score += 8;
+    const m = profile.marks[subject];
+    if (typeof m === "number") {
+      if (m >= 75) score += 20;
+      else if (m >= 60) score += 10;
+      else if (m >= 45) score += 3;
+      else score -= 6;
+    }
+
+    // realistic bounds and scaling to percentage
+    const confidence = Math.max(30, Math.min(95, Math.round((score / 100) * 100)));
+
+    const reasons: string[] = [];
+    if (career && career.requiredSubjects.includes(subject)) reasons.push("Required by your top pathway");
+    if (career && career.recommendedSubjects.includes(subject)) reasons.push("Recommended by your top pathway");
+    if (typeof m === "number") reasons.push(`You scored ${m}% in ${subject}`);
+    for (const i of profile.interests) {
+      const mapped = interestMap[i];
+      if (mapped && mapped.includes(subject)) reasons.push(`Matches interest: ${i}`);
+    }
+
+    return { subject, confidence, reasons };
+  });
+
+  return scored.sort((a, b) => b.confidence - a.confidence);
 }

@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { signInWithPopup } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
 import { auth, db, googleProvider } from "@/lib/firebase";
 import { BrandMark } from "@/components/nextpath/shell";
@@ -33,26 +33,46 @@ function LoginPage() {
     setError("");
 
     try {
-      // 1. Open Google's sign-in popup
       const result = await signInWithPopup(auth, googleProvider);
-
-      // 2. Get the authenticated Firebase user
       const user = result.user;
-
-      console.log("Authenticated user:", user.uid);
-      console.log("Name:", user.displayName);
-      console.log("Email:", user.email);
-
-      // 3. Check whether this learner already has a NextPath profile
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
-      // 4. Existing learner
-      if (userSnap.exists()) {
+      if (!userSnap.exists()) {
+        const initialProfile = {
+          uid: user.uid,
+          name: user.displayName ?? "",
+          email: user.email ?? "",
+          photoURL: user.photoURL ?? "",
+          grade: "Grade 9",
+          preferredLanguage: "English",
+          province: "",
+          area: "",
+          subjects: [],
+          marks: {},
+          interests: [],
+          strengths: [],
+          goalMode: "unsure",
+          targetCareerId: null,
+          careerArea: null,
+          completedSteps: [],
+          onboardingComplete: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: serverTimestamp(),
+        };
+
+        await setDoc(userRef, initialProfile, { merge: true });
+        navigate({ to: "/onboarding" });
+        return;
+      }
+
+      const profile = userSnap.data();
+
+      if (profile.onboardingComplete) {
         navigate({ to: "/dashboard" });
         return;
       }
-      // 5. New learner
+
       navigate({ to: "/onboarding" });
     } catch (err) {
       console.error("Google sign-in error:", err);

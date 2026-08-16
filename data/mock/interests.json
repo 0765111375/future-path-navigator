@@ -1,0 +1,9 @@
+[
+  { "id": "technology", "label": "Technology", "emoji": "💻" },
+  { "id": "science", "label": "Science", "emoji": "🔬" },
+  { "id": "numbers", "label": "Numbers", "emoji": "📊" },
+  { "id": "creativity", "label": "Creativity", "emoji": "🎨" },
+  { "id": "business", "label": "Business", "emoji": "💰" },
+  { "id": "helping", "label": "Helping people", "emoji": "👥" },
+  { "id": "communication", "label": "Communication", "emoji": "🎤" }
+]

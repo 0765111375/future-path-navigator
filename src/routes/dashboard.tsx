@@ -172,7 +172,7 @@ function Dashboard() {
             </p>
           )}
           <Button asChild variant="outline" className="mt-5 w-full">
-            <Link to="/ai">Ask NextPath AI what to do next</Link>
+            <Link to="/roadmap">Review my roadmap</Link>
           </Button>
         </div>
       </div>

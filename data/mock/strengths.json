@@ -1,0 +1,7 @@
+[
+  { "id": "problem-solving", "label": "Problem solving" },
+  { "id": "mathematics", "label": "Mathematics" },
+  { "id": "communication", "label": "Communication" },
+  { "id": "analysis", "label": "Analysing information" },
+  { "id": "people", "label": "Working with people" }
+]

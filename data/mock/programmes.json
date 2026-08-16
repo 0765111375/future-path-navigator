@@ -1,0 +1,4 @@
+[
+  { "id": "wits-bsc-cs", "university": "Wits", "programme": "BSc Computer Science", "degree": "BSc", "duration": "3 years", "faculty": "Science", "requiredSubjects": [{ "subject": "Mathematics", "min": 60 }], "aps": 28, "url": "https://www.wits.ac.za/" , "verified":"2026" },
+  { "id": "uct-llb", "university": "UCT", "programme": "LLB", "degree": "LLB", "duration": "4 years", "faculty": "Law", "requiredSubjects": [{ "subject": "English", "min": 60 }], "aps": 30, "url": "https://www.uct.ac.za/", "verified":"2026" }
+]

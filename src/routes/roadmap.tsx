@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useDataService from "@/lib/use-data-service";
 import { Check, Circle, ExternalLink, MapPin } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/nextpath/shell";
 import { NeedsProfile } from "@/components/nextpath/guard";
@@ -13,6 +14,7 @@ import {
   roadmapProgress,
   ROADMAP_STAGES,
   targetCareer,
+  recommendGrade10Subjects,
 } from "@/lib/matching";
 import { useProfile } from "@/lib/profile-store";
 import { cn } from "@/lib/utils";
@@ -39,6 +41,21 @@ export const Route = createFileRoute("/roadmap")({
 function Roadmap() {
   const { profile, toggleStep } = useProfile();
   const [open, setOpen] = useState<string>("profile");
+
+  // If the profile was very recently created (just finished onboarding), open
+  // the subjects stage so learners see the subject path first.
+  useEffect(() => {
+    if (!profile) return;
+    try {
+      const created = new Date(profile.createdAt).getTime();
+      const now = Date.now();
+      if (now - created < 2 * 60 * 1000) setOpen("subjects");
+    } catch {
+      // ignore parse errors
+    }
+  }, [profile]);
+  // ensure hooks are called in the same order on every render
+  const { loading: datasetsLoading } = useDataService();
 
   if (!profile) {
     return (
@@ -75,12 +92,24 @@ function Roadmap() {
     subjects: (
       <div className="space-y-2 text-sm text-muted-foreground">
         <p>
-          Keep or choose for Grade 10:{" "}
-          <span className="text-foreground">
-            {career ? [...career.requiredSubjects, ...career.recommendedSubjects].join(", ") : "—"}
-          </span>
+          Keep or choose for Grade 10:
+          <span className="text-foreground"> {career ? [...career.requiredSubjects, ...career.recommendedSubjects].join(", ") : "—"}</span>
         </p>
         <p>Required subjects cannot be swapped later without closing this pathway.</p>
+        <div className="mt-3">
+          <p className="font-medium">Recommended Grade 10 subjects (based on your marks, interests & strengths)</p>
+          <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
+            {recommendGrade10Subjects(profile).slice(0, 6).map((s) => (
+              <li key={s.subject} className="flex items-start justify-between">
+                <div>
+                  <div className="font-medium">{s.subject}</div>
+                  <div className="text-xs text-muted-foreground">{s.reasons.slice(0,2).join(' · ')}</div>
+                </div>
+                <div className="ml-4 text-sm text-foreground">{s.confidence}%</div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     ),
     skills: (
@@ -146,6 +175,11 @@ function Roadmap() {
 
   return (
     <AppShell>
+      {datasetsLoading ? (
+        <div className="mb-4 rounded-md border border-border bg-surface px-4 py-2 text-sm text-muted-foreground">
+          Refreshing dataset from Firestore (or using local fallback)...
+        </div>
+      ) : null}
       <PageHeader
         eyebrow="Core product"
         title="My roadmap"
@@ -208,7 +242,7 @@ function Roadmap() {
 
       <div className="mt-8 flex flex-wrap gap-3">
         <Button asChild>
-          <Link to="/ai">Ask NextPath AI about my roadmap</Link>
+          <Link to="/dashboard">Review my dashboard</Link>
         </Button>
         <Button asChild variant="outline">
           <Link to="/opportunities">See opportunities</Link>

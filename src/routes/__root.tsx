@@ -8,8 +8,10 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 import appCss from "../styles.css?url";
+import { auth, clearAuthSession, saveAuthSession } from "@/lib/firebase";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -125,6 +127,24 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        saveAuthSession({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          provider: user.providerData[0]?.providerId ?? "google",
+        });
+        return;
+      }
+
+      clearAuthSession();
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
